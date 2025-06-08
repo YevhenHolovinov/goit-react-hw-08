@@ -1,0 +1,11 @@
+.searchContainer {
+  margin-bottom: 40px;
+}
+.searchLabel {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.searchInput {
+  min-width: 320px;
+}
