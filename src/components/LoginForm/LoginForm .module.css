@@ -1,12 +1,26 @@
+.form {
+  width: 320px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
 .formContact {
   margin: auto;
-  border: 2px solid black;
+  border: 2px solid var(--deep-dark);
   border-radius: 8px;
-  min-width: 320px;
+  width: 320px;
   padding: 20px;
   margin-bottom: 40px;
 }
-
+@media (prefers-color-scheme: light) {
+  .formContact {
+    border: 2px solid var(--light-silver);
+  }
+}
 .formLabel {
   text-align: start;
   display: block;
@@ -18,6 +32,10 @@
 }
 
 .formInput {
+  border-style: none;
+  border-radius: 8px;
+  padding-block: 8px;
+  padding-inline: 12px;
   min-width: 300px;
   width: 90%;
   margin-bottom: 30px;

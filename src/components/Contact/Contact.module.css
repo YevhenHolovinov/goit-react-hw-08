@@ -1,17 +1,37 @@
-.container {
-  border: 2px solid black;
-  border-radius: 4px;
-  padding: 4px;
+.contactItem {
   display: flex;
   align-items: center;
-  gap: 12px;
   justify-content: space-between;
-  max-width: 300px;
+  gap: 20px;
+  border: 2px solid var(--deep-dark);
+  border-radius: 8px;
+  padding: 12px;
+  flex-shrink: 0;
+  flex-basis: 280px;
 }
 
-.text {
+@media (prefers-color-scheme: light) {
+  .contactItem {
+    border: 2px solid var(--light-silver);
+  }
+}
+
+.contactContext {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  gap: 8px;
+  color: var(--orange);
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }

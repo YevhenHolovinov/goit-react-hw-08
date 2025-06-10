@@ -1,12 +1,6 @@
-.list {
-  margin: 0;
-  padding: 0;
+.contactList {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.item {
-  max-width: 600px;
-  list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }

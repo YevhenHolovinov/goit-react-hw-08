@@ -2,9 +2,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useId } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsOps';
+import { IoIosPersonAdd } from 'react-icons/io';
+import toast from 'react-hot-toast';
 
 import css from './ContactForm.module.css';
+import { addContact } from '../../redux/contacts/operations';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -22,16 +24,28 @@ const initialValues = {
   number: '',
 };
 
-export const ContactForm = () => {
+const ContactForm = () => {
   const nameFieldId = useId();
+
   const numberFieldId = useId();
 
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
-    actions.setSubmitting(false);
-    actions.resetForm();
+    dispatch(addContact(values))
+      .unwrap()
+      .then((result) => {
+        toast.success(`Contact ${values.name} Successfully added!`);
+        console.log('result: ', result);
+
+        actions.setSubmitting(false);
+        actions.resetForm();
+      })
+      .catch((error) => {
+        toast.error('Failed to add contact');
+
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -50,6 +64,7 @@ export const ContactForm = () => {
               className={css.formInput}
               type="text"
               name="name"
+              placeholder="Enter FirstName and LastName"
               id={nameFieldId}
             />
             <ErrorMessage
@@ -68,6 +83,7 @@ export const ContactForm = () => {
               type="tel"
               inputMode="tel"
               name="number"
+              placeholder="Phone format: XXX-XXX-XXXX"
               id={numberFieldId}
             />
             <ErrorMessage
@@ -82,10 +98,13 @@ export const ContactForm = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            Add contact
+            <IoIosPersonAdd />
+            <span>Add</span>
           </button>
         </Form>
       )}
     </Formik>
   );
 };
+
+export default ContactForm;

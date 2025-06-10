@@ -1,22 +1,82 @@
-import css from './App.module.css';
-import { ContactList } from '../ContactList/ContactList';
-import { SearchBox } from '../SearchBox/SearchBox';
-import { ContactForm } from '../ContactForm/ContactForm';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from '../../redux/contactsOps';
+import './App.module.css';
+import { lazy, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
+import { Route, Routes } from 'react-router';
 
-export const App = () => {
+import { selectIsRefreshing } from '../../redux/auth/selectors';
+import Loader from '../Loader/Loader';
+import Layout from '../Layout/Layout';
+import RestrictedRoute from '../RestrictedRoute/RestrictedRoute';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
+
+const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
+const RegisterPage = lazy(() =>
+  import('../../pages/RegisterPage/RegisterPage')
+);
+const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
+const ContactsPage = lazy(() =>
+  import('../../pages/ContactsPage/ContactsPage')
+);
+const NotFoundPage = lazy(() => import('../../pages/NoFoundPage/NoFoundPage'));
+
+import { refreshUser } from '../../redux/auth/operations';
+
+function App() {
   const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
+
   return (
-    <div className={css.container}>
-      <h1>Phone book</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
+    <>
+      {isRefreshing ? (
+        <Loader />
+      ) : (
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<RegisterPage />}
+                />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<ContactsPage />}
+                />
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <RestrictedRoute redirectTo="*" component={<NotFoundPage />} />
+              }
+            />
+          </Routes>
+        </Layout>
+      )}
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
-};
+}
+
+export default App;
