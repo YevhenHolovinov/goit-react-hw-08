@@ -1,9 +1,6 @@
-import { useHotkeys } from 'react-hotkeys-hook';
 import css from './DeleteContactModal.module.css';
 
 const DeleteContactModal = ({ contact, handleDelete, handleCancel }) => {
-  useHotkeys('esc', () => handleCancel());
-
   return (
     <div className={css.modalOverlay}>
       <div className={css.modal}>
