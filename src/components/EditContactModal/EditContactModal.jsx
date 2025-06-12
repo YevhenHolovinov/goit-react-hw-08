@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ImCancelCircle } from 'react-icons/im';
 import { FaRegSave } from 'react-icons/fa';
-import { useHotkeys } from 'react-hotkeys-hook';
 
 import css from './EditContactModal.module.css';
 
@@ -49,8 +48,6 @@ const EditContactModal = ({ handleUpdateContact, handleCloseModal, id }) => {
     actions.setSubmitting(false);
     actions.resetForm();
   };
-
-  useHotkeys('esc', () => handleCloseModal());
 
   return (
     <div className={css.modalOverlay}>

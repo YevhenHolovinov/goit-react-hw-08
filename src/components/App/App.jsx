@@ -18,7 +18,9 @@ const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
 const ContactsPage = lazy(() =>
   import('../../pages/ContactsPage/ContactsPage')
 );
-const NotFoundPage = lazy(() => import('../../pages/NoFoundPage/NoFoundPage'));
+const NotFoundPage = lazy(() =>
+  import('../../pages/NotFoundPage/NotFoundPage')
+);
 
 import { refreshUser } from '../../redux/auth/operations';
 
